@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simulator Aljabar Boolean & Karnaugh Map</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <h1>Simulator Aljabar Boolean & Karnaugh Map</h1>
+      <p class="subtitle">Masukkan ekspresi boolean → lihat tabel kebenaran, edit K-Map, sederhanakan (SOP / POS)</p>
+    </div>
+    <div class="header-actions">
+      <button id="theme-toggle" class="icon-btn" title="Toggle dark / light">🌓</button>
+      <button id="btn-print" class="icon-btn" title="Print / Save as PDF">🖨️</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel left-panel card">
+      <h2>Ekspresi & Tabel Kebenaran</h2>
+
+      <div class="form-row">
+        <label for="expr">Ekspresi Boolean
+          <span class="hint tooltip">?
+            <span class="tooltiptext">Operator: <code>!</code>, <code>~</code>, postfix <code>'</code> = NOT; implicit / <code>*</code>/<code>&</code> = AND; <code>+</code>/<code>|</code> = OR; <code>^</code> = XOR; gunakan kurung <code>()</code>.</span>
+          </span>
+        </label>
+        <input id="expr" type="text" placeholder="Contoh: A'B + AC atau ~(A^B)C" value="A'B + AC" />
+      </div>
+
+      <div class="btn-row">
+        <button id="btn-eval">Evaluasi</button>
+        <button id="btn-clear" class="secondary">Bersihkan</button>
+        <button id="btn-sample" class="secondary">Contoh Acak</button>
+      </div>
+
+      <div class="badges">
+        <span class="pill" id="vars-pill">Variabel: —</span>
+        <span class="pill" id="minterms-pill">Minterm: —</span>
+        <span class="pill" id="dc-pill">Don't-care: —</span>
+        <span class="pill" id="simp-pill">Sederhana: —</span>
+      </div>
+
+      <p class="note">Catatan: K-Map aktif hingga 4 variabel; tabel kebenaran mendukung lebih dari 4.</p>
+
+      <h3 class="section-title">Tabel Kebenaran</h3>
+      <div class="tt card small">
+        <table id="ttbl"><thead></thead><tbody></tbody></table>
+      </div>
+
+      <h3 class="section-title">Contoh Cepat</h3>
+      <div class="examples">
+        <button class="example">A'B + AC</button>
+        <button class="example">A(B + C) + A'B'</button>
+        <button class="example">~(A ^ B)C</button>
+        <button class="example">A'B'C + ABC'</button>
+        <button class="example">A(B + C') + B'C</button>
+      </div>
+    </section>
+
+    <section class="panel right-panel card">
+      <h2>Karnaugh Map</h2>
+      <p class="muted small">Klik sel: toggle 0↔1; klik kanan sel: cycle 0 → 1 → d → 0 (don’t-care).</p>
+
+      <div class="grid-metadata">
+        <div><strong>Baris:</strong> <span id="rowlabel">—</span></div>
+        <div><strong>Kolom:</strong> <span id="collabel">—</span></div>
+      </div>
+
+      <div id="kmap" class="kmap" aria-label="Karnaugh Map"></div>
+
+      <div class="btn-row" style="margin-top:12px;">
+        <button id="btn-simplify">Sederhanakan</button>
+        <button id="mode-toggle" class="secondary">Mode: <span id="mode-label">SOP</span></button>
+        <button id="btn-reset" class="secondary">Reset K-Map</button>
+      </div>
+
+      <div class="field" style="margin-top:10px;">
+        <label>Ekspresi Tersederhana</label>
+        <div id="out-simplified" class="code">—</div>
+      </div>
+
+      <div class="field">
+        <label>Minterm / don't-care <span class="mini muted">(contoh: 0,1,3,4)</span></label>
+        <input id="minterm-io" type="text" placeholder="contoh: 0,1,2,3,5" />
+        <div class="btn-row">
+          <button id="btn-import" class="secondary">Impor →</button>
+          <button id="btn-export" class="secondary">Ekspor ←</button>
+        </div>
+      </div>
+
+      <div class="extras">
+        <button id="btn-png">Ekspor PNG</button>
+        <button id="btn-benchmark" class="secondary">Benchmark QM</button>
+        <div id="bench-result" class="bench small muted"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer muted small">
+    <div>Petunjuk: Gunakan tooltips (?) untuk bantuan singkat; Dark/Light toggle menyimpan preferensi.</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
